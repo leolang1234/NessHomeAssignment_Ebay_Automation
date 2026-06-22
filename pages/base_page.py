@@ -28,14 +28,6 @@ class BasePage:
         self.logger.debug("Waiting for element (state=%s)", state)
         locator.wait_for(state=state, timeout=timeout)
 
-    def take_screenshot(self, path: str) -> None:
-        """Save a screenshot to an explicit path."""
-        dir_part = os.path.dirname(path)
-        if dir_part:
-            os.makedirs(dir_part, exist_ok=True)
-        self.logger.debug("Screenshot saved: %s", path)
-        self.page.screenshot(path=path)
-
     def get_screenshot(self, name: str = "", output_dir: str = "reports/screenshots") -> str:
         """Save a timestamped screenshot and return its path."""
         os.makedirs(output_dir, exist_ok=True)
