@@ -15,12 +15,18 @@ def logger():
 
 @pytest.fixture(scope="session")
 def username(request):
-    return request.config.getoption("--username")
+    value = request.config.getoption("--username")
+    if not value or not value.strip():
+        pytest.exit("--username must be provided and cannot be empty", returncode=1)
+    return value
 
 
 @pytest.fixture(scope="session")
 def password(request):
-    return request.config.getoption("--password")
+    value = request.config.getoption("--password")
+    if not value or not value.strip():
+        pytest.exit("--password must be provided and cannot be empty", returncode=1)
+    return value
 
 
 @pytest.fixture
