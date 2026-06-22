@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Static Code Analysis — Errors Report</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1e2328;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1e2328;
+      letter-spacing: 0.02em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    thead tr {
+      background: #1e2328;
+      color: #fff;
+      text-align: left;
+    }
+
+    thead th {
+      padding: 0.85rem 1.2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #e8eaed;
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover { background: #f7f9fc; }
+
+    td {
+      padding: 0 1.2rem;
+      vertical-align: top;
+    }
+
+    td.num {
+      width: 3.5rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #6c757d;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      white-space: nowrap;
+    }
+
+    /* ── details / summary ── */
+    details {
+      padding: 0.9rem 0;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1e2328;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::before {
+      content: "▶";
+      font-size: 0.65rem;
+      color: #6c757d;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    details[open] > summary::before {
+      transform: rotate(90deg);
+    }
+
+    summary .badge {
+      display: inline-block;
+      background: #fff0f0;
+      color: #c0392b;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    summary code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      background: #f3f4f6;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      color: #c0392b;
+    }
+
+    .expand-body {
+      margin-top: 0.8rem;
+      padding-left: 1.3rem;
+      border-left: 3px solid #e8eaed;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.2rem;
+    }
+
+    .description .section-label { color: #e67e22; }
+    .fix-section  .section-label { color: #27ae60; }
+
+    .description p,
+    .fix-section  p {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: #3d4450;
+    }
+
+    .fix-section code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.85rem;
+      background: #eafaf1;
+      color: #1e8449;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Static Code Analysis — Bugs Found</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Error &amp; Details</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <!-- Row 1 -->
+      <tr>
+        <td class="num">1</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Import</span>
+              <code>sync playwright</code> — space in import name
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p>The import statement contains a space: <code>sync playwright</code>. Python import names cannot contain spaces, so this is a syntax error that will prevent the module from loading entirely.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Remove the space so the name matches the actual module identifier: <code>sync_playwright</code>.<br>
+                Correct import: <code>from playwright.sync_api import sync_playwright</code></p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 2 -->
+      <tr>
+        <td class="num">2</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Wrong Library</span>
+              <code>from selenium import webdriver</code> — wrong framework import
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p>The entire test is written using Playwright's API, yet <code>from selenium import webdriver</code> imports Selenium — a completely different browser automation framework. The <code>webdriver</code> symbol is never used anywhere in the code, so this is dead code. More importantly, it signals a copy-paste mistake that could cause confusion about which framework is in use, and will raise an <code>ImportError</code> if the <code>selenium</code> package is not installed.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Remove the line <code>from selenium import webdriver</code> entirely. The project uses Playwright exclusively — the correct import is already present: <code>from playwright.sync_api import sync_playwright</code>.</p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 3 -->
+      <tr>
+        <td class="num">3</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Resource Leak</span>
+              <code>sync_playwright().start()</code> — no context manager
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p>Calling <code>sync_playwright().start()</code> without a context manager means the Playwright subprocess is never guaranteed to stop. If the test raises an exception before the matching <code>.stop()</code> call, the browser process is left running, leaking system resources.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Use the context manager form so cleanup is automatic even on failure:<br>
+                <code>with sync_playwright() as p:</code><br>
+                This ensures <code>stop()</code> is called on exit regardless of exceptions.</p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 4 -->
+      <tr>
+        <td class="num">4</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Logic</span>
+              <code>search_box.fill = (...)</code> — assignment instead of method call
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p><code>search_box.fill = (...)</code> uses the assignment operator <code>=</code> instead of calling the method. This silently overwrites the <code>fill</code> attribute on the locator object with the argument value instead of typing text into the element. No text is entered and no error is raised.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Replace <code>=</code> with parentheses to make it a proper method call:<br>
+                <code>search_box.fill("playwright testing")</code></p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 5 -->
+      <tr>
+        <td class="num">5</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Typo</span>
+              <code>page.loctor(...)</code> — misspelled method name
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p><code>loctor</code> is a typo — the method does not exist on the Playwright <code>Page</code> object. Calling it raises an <code>AttributeError</code> at runtime, halting the test immediately.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Correct the spelling to the valid Playwright method:<br>
+                <code>page.locator(...)</code></p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 6 -->
+      <tr>
+        <td class="num">6</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Typo</span>
+              <code>page.lctor(...)</code> — misspelled method name
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p><code>lctor</code> is a second typo variant of the same issue — the letter <code>o</code> is also missing here. Like the previous case, this raises an <code>AttributeError</code> at runtime.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Correct the spelling:<br>
+                <code>page.locator(...)</code></p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 7 -->
+      <tr>
+        <td class="num">7</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Anti-pattern</span>
+              <code>time.sleep(2/3)</code> — blocks Playwright's event loop
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p><code>time.sleep()</code> is a blocking OS-level sleep that freezes the Python thread. Playwright's synchronous API drives an internal async event loop; sleeping with <code>time.sleep()</code> starves that loop, which can cause timeouts, missed network responses, and flaky tests. It also makes <code>2/3</code> evaluate to <code>0.666…</code> seconds — likely unintentional.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Use Playwright's own timer which cooperates with its event loop:<br>
+                <code>page.wait_for_timeout(2000)</code> &nbsp;(milliseconds)<br>
+                Or better yet, replace fixed waits with explicit element-state waits such as <code>page.wait_for_selector()</code> or <code>locator.wait_for()</code> to avoid unnecessary delays.</p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+      <!-- Row 8 -->
+      <tr>
+        <td class="num">8</td>
+        <td>
+          <details>
+            <summary>
+              <span class="badge">Style</span>
+              Inconsistent indentation throughout the file
+            </summary>
+            <div class="expand-body">
+              <div class="description">
+                <div class="section-label">Description</div>
+                <p>The file mixes tab characters and spaces for indentation. Python treats tabs and spaces as different indentation levels. Mixing them causes an <code>IndentationError</code> (Python 3) or silently misaligns logic blocks (Python 2), leading to incorrect control flow or outright parse failures.</p>
+              </div>
+              <div class="fix-section">
+                <div class="section-label">Suggested Fix</div>
+                <p>Standardize on 4 spaces per indent level (PEP 8 recommendation) throughout the entire file. Most editors can convert tabs to spaces automatically. Running <code>pycodestyle</code> or enabling a linter such as <code>flake8</code> or <code>ruff</code> will catch this class of issue automatically in CI.</p>
+              </div>
+            </div>
+          </details>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</body>
+</html>
