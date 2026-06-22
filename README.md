@@ -33,7 +33,7 @@ The file [`errors_in_the_static_code_section.html`](./errors_in_the_static_code_
 | Page Object Model (POM) | Test architecture pattern |
 | Allure Reports | Test reporting |
 | Text Logger | Runtime debugging |
-| JSON (data/) | Data-driven test inputs |
+| JSON (data/) | Data-driven test inputs (no credentials stored) |
 
 ---
 
@@ -100,7 +100,7 @@ pip install -r requirements.txt
 playwright install
 
 # 5. Run tests and generate Allure results
-pytest --alluredir=allure-results
+pytest --username=your@email.com --password=yourpassword --alluredir=allure-results
 
 # 6. Open the Allure report
 allure serve allure-results
@@ -110,16 +110,20 @@ allure serve allure-results
 
 ## Test Data
 
-Test inputs are configured in `data/test_data.json`. You can modify:
+Static test inputs are configured in `data/test_data.json`. You can modify:
 
 | Key | Description |
 |---|---|
-| `username` | eBay login email |
-| `password` | eBay login password |
 | `query` | Search term |
 | `max_price` | Maximum item price filter |
 | `limit` | Number of items to add to cart |
 | `cart_url` | Direct URL to the eBay cart |
+
+Credentials are **not** stored in the file. Pass them at runtime via command-line flags:
+
+```bash
+pytest --username=your@email.com --password=yourpassword
+```
 
 ---
 

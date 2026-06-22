@@ -6,10 +6,10 @@ from flows.cart_flow import assert_cart_total_not_exceeds
 from pages.cart_page import CartPage
 
 
-def test_smoke(page):
+def test_smoke(page, username, password):
     data = load_test_data()
 
-    login_and_verify(page, username=data["user_name"], password=data["password"])
+    login_and_verify(page, username=username, password=password)
 
     CartPage(page).clear()
 
