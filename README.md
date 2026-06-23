@@ -79,7 +79,7 @@ NessHomeAssignment_Ebay_Automation/
 ## Prerequisites
 
 - Python 3.10 or higher
-- pip
+- pip3
 - Google Chrome / Chromium
 - Allure CLI ([installation guide](https://docs.qameta.io/allure/#_installing_a_commandline))
 
