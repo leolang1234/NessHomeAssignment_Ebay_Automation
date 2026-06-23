@@ -103,7 +103,7 @@ playwright install
 # 5. Run tests and generate Allure results
 pytest --username=your@email.com --password=yourpassword --alluredir=allure-results
 
-# 6. Open the Allure report
+# 6. Open the Allure report ( On MacOS )
 allure serve allure-results
 ```
 
