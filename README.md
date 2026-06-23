@@ -26,14 +26,15 @@ The file [`errors_in_the_static_code_section.html`](./errors_in_the_static_code_
 
 ## Tech Stack
 
-| Tool | Purpose |
-|---|---|
-| Playwright (Python) | Browser automation |
-| Pytest | Test framework |
-| Page Object Model (POM) | Test architecture pattern |
-| Allure Reports | Test reporting |
-| Text Logger | Runtime debugging |
-| JSON (data) | Data-driven test inputs (no credentials stored) |
+| Tool                    | Purpose                                         |
+|-------------------------|-------------------------------------------------|
+| Playwright (Python)     | Browser automation                              |
+| Pytest                  | Test framework                                  |
+| Page Object Model (POM) | Test architecture pattern                       |
+| Allure Reports          | Test reporting                                  |
+| Text Logger             | Runtime debugging                               |
+| JSON (data)             | Data-driven test inputs (no credentials stored) |
+| Claude (Sonnet 4.6)     | Faster development and debuging                 |
 
 ---
 
